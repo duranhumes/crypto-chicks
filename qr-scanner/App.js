@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, Image } from 'react-native';
+import {
+    Text,
+    View,
+    StyleSheet,
+    Image,
+    Button,
+    TouchableOpacity,
+} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import Modal from 'react-native-modal';
 
@@ -82,13 +89,19 @@ export default class App extends React.Component {
 }
 
 function UserModal(props) {
+    const student = {
+        id: '25e073558d53483c97767fd8bacece3d',
+        name: 'Duran Humes',
+        photo_url: 'https://api.adorable.io/avatars/285/abott@adorable.png',
+        school_id: '236',
+    };
     const [isModalVisible, isModalVisibleOnChange] = useState(true);
 
     const toggleModal = () => {
         isModalVisibleOnChange(!isModalVisible);
     };
 
-    const { student } = props;
+    // const { student } = props;
     return (
         <View>
             <Button title="Show modal" onPress={toggleModal} />
@@ -103,9 +116,15 @@ function UserModal(props) {
                 >
                     {student && (
                         <>
-                            <View style={{ width: '100%', height: '100%' }}>
+                            <View
+                                style={{
+                                    width: 125,
+                                    height: 125,
+                                    marginBottom: 20,
+                                }}
+                            >
                                 <Image
-                                    style={{ width: 225, height: 225 }}
+                                    style={{ flex: 1, width: 125, height: 125 }}
                                     source={{ uri: student.photo_url }}
                                 />
                             </View>
@@ -120,7 +139,20 @@ function UserModal(props) {
                             </Text>
                         </>
                     )}
-                    <Button title="Hide modal" onPress={toggleModal} />
+                    <TouchableOpacity
+                        style={{ marginTop: 30 }}
+                        onPress={toggleModal}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 30,
+                                textTransform: 'uppercase',
+                                color: 'blue',
+                            }}
+                        >
+                            Close
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </Modal>
         </View>
