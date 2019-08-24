@@ -16,11 +16,11 @@ function Create() {
         const [response, responseErr] = await promiseWrapper(
             apiInstance.post(studentsEndpoint, values)
         );
-        if (!responseErr) {
-            return setResponseMsg(response.data.message);
+        if (responseErr) {
+            return setResponseMsg(responseErr.data.message);
         }
 
-        setResponseMsg(responseErr.data.message);
+        setResponseMsg(response.data.message);
     };
 
     const setResponseMsg = msg => {

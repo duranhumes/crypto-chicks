@@ -92,3 +92,28 @@ export const Label = styled.label`
     display: inline-block;
     width: 160px;
 `;
+
+export const List = styled.ul`
+    list-style-type: none;
+    width: 100%;
+    margin: 5px;
+    padding: 15px;
+    background: #fff;
+`;
+
+export const ListItem = styled.li`
+    width: 100%;
+    height: 85px;
+    padding: 2rem;
+    margin-bottom: 30px;
+    box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.15);
+    transition: 0.15s all ease-in-out;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    line-height: 34px;
+
+    &:hover {
+        box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.25);
+    }
+`;

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
+import Modal from 'react-native-modal';
 
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
@@ -14,6 +15,7 @@ export default class App extends React.Component {
     state = {
         hasCameraPermission: null,
         scanned: false,
+        userData: {},
     };
 
     async componentDidMount() {
@@ -23,6 +25,21 @@ export default class App extends React.Component {
     getPermissionsAsync = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
+    };
+
+    handleBarCodeScanned = async ({ data }) => {
+        this.setState({ scanned: true });
+        const [qrUrl, qrUrlErr] = await promiseWrapper(
+            apiInstance.get(`${studentsEndpoint}/${data}`)
+        );
+        if (!qrUrlErr) {
+            this.setState(prevState => ({
+                ...prevState,
+                userData: qrUrl.data.data,
+            }));
+        }
+
+        alert(`The user is ${qrUrl.data.data.name}`);
     };
 
     render() {
@@ -51,24 +68,55 @@ export default class App extends React.Component {
                 />
 
                 {scanned && (
-                    <Button
-                        title={'Tap to Scan Again'}
-                        onPress={() => this.setState({ scanned: false })}
-                    />
+                    <>
+                        <Button
+                            title={'Tap to Scan Again'}
+                            onPress={() => this.setState({ scanned: false })}
+                        />
+                        <UserModal student={this.state.userData} />
+                    </>
                 )}
             </View>
         );
     }
+}
 
-    handleBarCodeScanned = ({ type, data }) => {
-        this.setState({ scanned: true });
-        // const [qrUrl, qrUrlErr] = promiseWrapper();
-        apiInstance.get(data).then(url => {
-            console.log(url);
-        });
-        // console.log('qrUrl', qrUrl);
-        // console.log('qrUrlErr', qrUrlErr);
-        // const data = await apiInstance.get(data);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+function UserModal(props) {
+    const [isModalVisible, isModalVisibleOnChange] = useState(true);
+
+    const toggleModal = () => {
+        isModalVisibleOnChange(!isModalVisible);
     };
+
+    const { student } = props;
+    return (
+        <View>
+            <Button title="Show modal" onPress={toggleModal} />
+            <Modal isVisible={isModalVisible}>
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'grey',
+                    }}
+                >
+                    {student && (
+                        <>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                                ID: {student.id}
+                            </Text>
+                            <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
+                                Name: {student.name}
+                            </Text>
+                            <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
+                                School ID: {student.school_id}
+                            </Text>
+                        </>
+                    )}
+                    <Button title="Hide modal" onPress={toggleModal} />
+                </View>
+            </Modal>
+        </View>
+    );
 }
