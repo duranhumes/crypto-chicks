@@ -6,6 +6,9 @@ ENV DIR /usr/src/app
 ENV HOME /home/$USER
 ENV TZ=America/New_York
 
+# To handle 'not get uid/gid'
+RUN npm config set unsafe-perm true
+
 # Install deps
 RUN apk update && apk --no-cache add \
   --virtual native-deps g++ gcc libgcc tzdata \
@@ -14,9 +17,6 @@ RUN apk update && apk --no-cache add \
   npm@latest yarn@latest
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-# To handle 'not get uid/gid'
-RUN npm config set unsafe-perm true
 
 # Create the app dir and copy all local files to that location
 RUN mkdir -p $DIR
