@@ -42,12 +42,9 @@ router.get('/_healthz', (_, res) => res.sendStatus(200));
 router.use('/students', StudentController);
 router.post('/qr', (req, res) => {
     const qr = require('qr-image');
-    const code = qr.image(
-        `http://167.71.251.67:8000/v1/students/${req.body.id}`,
-        {
-            type: 'png',
-        }
-    );
+    const code = qr.image(req.body.id, {
+        type: 'png',
+    });
     res.setHeader('Content-type', 'image/png'); //sent qr image to client side
     code.pipe(res);
 });
