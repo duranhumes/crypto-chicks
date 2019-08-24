@@ -15,6 +15,9 @@ RUN apk update && apk --no-cache add \
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# To handle 'not get uid/gid'
+RUN npm config set unsafe-perm true
+
 # Create the app dir and copy all local files to that location
 RUN mkdir -p $DIR
 WORKDIR $DIR
