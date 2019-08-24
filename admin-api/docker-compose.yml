@@ -1,0 +1,46 @@
+version: '3.5'
+services:
+    mysql:
+        hostname: db
+        image: 'mysql:5.7'
+        restart: always
+        env_file:
+            - ./.env
+        volumes:
+            - './mysql/data:/var/lib/mysql'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_USER: '${DB_USER}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+        networks:
+            crypto-network:
+                aliases:
+                    - db
+
+    api:
+        container_name: api
+        restart: unless-stopped
+        build: .
+        env_file:
+            - ./.env
+        environment:
+            TZ: America/New_York
+            WAIT_BEFORE_HOSTS: 60
+            WAIT_HOSTS: mysql:3306
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules/
+        ports:
+            - '${APP_PORT}:8000'
+        depends_on:
+            - mysql
+        links:
+            - mysql
+        networks:
+            crypto-network:
+                aliases:
+                    - api
+networks:
+    crypto-network:
+        driver: bridge
