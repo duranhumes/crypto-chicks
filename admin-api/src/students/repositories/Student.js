@@ -16,8 +16,6 @@ export class StudentRepository {
             const [students, studentsErr] = await promiseWrapper(
                 this.db.where(query)
             );
-            console.log('students', students);
-            console.log('studentsErr', studentsErr);
             if (studentsErr) {
                 return reject(studentsErr);
             }

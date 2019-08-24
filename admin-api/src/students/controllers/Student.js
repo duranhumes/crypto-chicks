@@ -32,7 +32,11 @@ class Controller {
         }
 
         const [newStudent, newStudentErr] = await promiseWrapper(
-            this.studentRepo.create(studentData)
+            this.studentRepo.create({
+                ...studentData,
+                photo_url:
+                    'https://api.adorable.io/avatars/285/abott@adorable.png',
+            })
         );
         if (newStudentErr) {
             return res.status(500).json(httpMessages.code500());
