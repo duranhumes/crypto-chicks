@@ -14,7 +14,7 @@ export class StudentRepository {
     findQuery(query = {}) {
         return new Promise(async (resolve, reject) => {
             const [students, studentsErr] = await promiseWrapper(
-                this.db.select('*').where(query)
+                this.db.select('*')
             );
 
             if (studentsErr) {
