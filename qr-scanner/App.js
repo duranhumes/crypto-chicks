@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Image } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import Modal from 'react-native-modal';
 
@@ -103,6 +103,12 @@ function UserModal(props) {
                 >
                     {student && (
                         <>
+                            <View style={{ width: '100%', height: '100%' }}>
+                                <Image
+                                    style={{ width: 225, height: 225 }}
+                                    source={{ uri: student.photo_url }}
+                                />
+                            </View>
                             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                                 ID: {student.id}
                             </Text>

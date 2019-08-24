@@ -16,6 +16,8 @@ export class StudentRepository {
             const [students, studentsErr] = await promiseWrapper(
                 this.db.where(query)
             );
+            getDBConnection().destroy();
+
             if (studentsErr) {
                 return reject(studentsErr);
             }
@@ -33,6 +35,8 @@ export class StudentRepository {
             const [students, studentsErr] = await promiseWrapper(
                 this.db.where(query).first()
             );
+            getDBConnection().destroy();
+
             if (studentsErr) {
                 return reject(studentsErr);
             }
@@ -51,6 +55,8 @@ export class StudentRepository {
             const [, newStudentErr] = await promiseWrapper(
                 this.db.insert({ ...student, id })
             );
+            getDBConnection().destroy();
+
             if (newStudentErr) {
                 return reject(newStudentErr);
             }
