@@ -26,7 +26,7 @@ function Create() {
     const setResponseMsg = msg => {
         apiResponseMsgOnChange(msg);
         const timeout = setTimeout(() => {
-            document.querySelector('#response-msg').remove();
+            setResponseMsg('');
             clearTimeout(timeout);
         }, 9500);
     };

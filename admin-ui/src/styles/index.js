@@ -103,7 +103,7 @@ export const List = styled.ul`
 
 export const ListItem = styled.li`
     width: 100%;
-    height: 85px;
+    height: 95px;
     padding: 2rem;
     margin-bottom: 30px;
     box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.15);
