@@ -15,7 +15,7 @@ export class TransactionRepository {
         return new Promise(async (resolve, reject) => {
             const [transactions, transactionsErr] = await promiseWrapper(
                 getDBConnection().raw(
-                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT OUTER JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` LEFT OUTER JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`vendor_id\` = ?`,
+                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` LEFT JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`vendor_id\` = ?`,
                     vendorId
                 )
             );
@@ -37,7 +37,7 @@ export class TransactionRepository {
         return new Promise(async (resolve, reject) => {
             const [transactions, transactionsErr] = await promiseWrapper(
                 getDBConnection().raw(
-                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT OUTER JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` LEFT OUTER JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`student_id\` = ?`,
+                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` LEFT JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`student_id\` = ?`,
                     studentId
                 )
             );
