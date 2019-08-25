@@ -67,7 +67,7 @@ class Controller {
     async getVendorTransactions(req, res) {
         const vendorId = escapeString(req.params.vendorId);
         const [transactions, transactionsErr] = await promiseWrapper(
-            this.transactionRepo.findVendorTransactionsQuery(vendorId)
+            this.transactionRepo.findQuery({ vendor_id: vendorId })
         );
         if (transactionsErr) {
             return res.status(500).json(httpMessages.code500());

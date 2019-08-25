@@ -18,13 +18,13 @@ const dummyData = [
     {
         school_id: '242',
         name: 'Student 1',
-        id: '8D3A0ED3041244D8940E3AB8CF42B16C',
+        id: 'D2B019585333498ABF6B85E976AA29E0',
         photo_url: 'https://api.adorable.io/avatars/285/abott@adorable.png',
     },
     {
         school_id: '242',
         name: 'Vendor 1',
-        id: '469263895EA7448CA28A589EA501BB83',
+        id: '8E10ACD2F345429F97411B6CDFA58EB2',
     },
 ];
 
