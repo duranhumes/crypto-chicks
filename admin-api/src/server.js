@@ -7,6 +7,7 @@ import qrGenerator from 'qr-image';
 import compression from 'compression';
 
 import * as httpMessages from './utils/httpMessages';
+import { VendorController } from './vendors/controllers/Vendor';
 import { StudentController } from './students/controllers/Student';
 
 /**
