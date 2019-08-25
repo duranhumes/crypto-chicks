@@ -1,1 +1,1 @@
-export default ['student_id', 'name', 'photo_url', 'school_id'];
+export default ['id', 'name', 'photo_url', 'school_id'];

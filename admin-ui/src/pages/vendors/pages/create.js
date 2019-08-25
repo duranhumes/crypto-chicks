@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import builder from '../../../api/builder';
 import { promiseWrapper } from '../../../utils';
 import { Center, Row, Col } from '../../../styles';
-import { studentsEndpoint } from '../../../api/endpoints';
+import { vendorsEndpoint } from '../../../api/endpoints';
 
 import Form from '../components/form';
 
@@ -13,14 +13,14 @@ function Create(props) {
     const [apiResponseMsg, apiResponseMsgOnChange] = useState('');
     const handleSubmit = async values => {
         const [response, responseErr] = await promiseWrapper(
-            apiInstance.post(studentsEndpoint, values)
+            apiInstance.post(vendorsEndpoint, values)
         );
         if (responseErr) {
             return setResponseMsg(responseErr.data.message);
         }
 
         setResponseMsg(response.data.message);
-        props.history.push('/students');
+        props.history.push('/vendors');
     };
 
     const setResponseMsg = msg => {
@@ -36,7 +36,7 @@ function Create(props) {
             <Row>
                 <Col columns={12}>
                     <Center>
-                        <h1>Create A Student</h1>
+                        <h1>Create A Vendor</h1>
                         <p id="response-msg">{apiResponseMsg}</p>
                         <Form onSubmit={handleSubmit} />
                     </Center>

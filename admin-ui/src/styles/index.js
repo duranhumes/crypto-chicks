@@ -103,7 +103,7 @@ export const List = styled.ul`
 
 export const ListItem = styled.li`
     width: 100%;
-    height: 95px;
+    height: 130px;
     padding: 2rem;
     margin-bottom: 30px;
     box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.15);
@@ -116,4 +116,9 @@ export const ListItem = styled.li`
     &:hover {
         box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.25);
     }
+`;
+
+export const Image = styled.img`
+    width: 130px;
+    height: 130px;
 `;

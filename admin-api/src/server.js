@@ -1,9 +1,10 @@
 import hpp from 'hpp';
 import cors from 'cors';
 import helmet from 'helmet';
-import express from 'express';
-import compression from 'compression';
 import morgan from 'morgan';
+import express from 'express';
+import qrGenerator from 'qr-image';
+import compression from 'compression';
 
 import * as httpMessages from './utils/httpMessages';
 import { StudentController } from './students/controllers/Student';
@@ -39,14 +40,18 @@ const router = express.Router();
 app.use('/v1', router);
 
 router.get('/_healthz', (_, res) => res.sendStatus(200));
+
 router.use('/students', StudentController);
+router.use('/vendors', VendorController);
+
 router.post('/qr', (req, res) => {
-    const qr = require('qr-image');
-    const code = qr.image(req.body.id, {
+    const qrCode = qrGenerator.image(req.body.id, {
         type: 'png',
     });
-    res.setHeader('Content-type', 'image/png'); //sent qr image to client side
-    code.pipe(res);
+
+    res.setHeader('Content-type', 'image/png');
+
+    qrCode.pipe(res);
 });
 
 const noContentUrls = ['/favicon.ico', '/robots.txt'];

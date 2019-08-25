@@ -13,7 +13,6 @@ export class StudentRepository {
 
     findQuery(query = {}) {
         return new Promise(async (resolve, reject) => {
-            console.log('query', query);
             const [students, studentsErr] = await promiseWrapper(
                 getDBConnection()
                     .select('*')

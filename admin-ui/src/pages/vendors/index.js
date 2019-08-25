@@ -8,15 +8,15 @@ import Create from './pages/create';
 import Index from './pages/index';
 import Edit from './pages/edit';
 
-function Students() {
+function Vendors() {
     return (
         <Wrapper>
             <Header />
-            <Route path="/students" exact={true} component={Index} />
-            <Route path="/students/create" exact={true} component={Create} />
-            <Route path="/students/:studentId" component={Edit} />
+            <Route path="/vendors" exact={true} component={Index} />
+            <Route path="/vendors/create" exact={true} component={Create} />
+            <Route path="/vendors/:vendorId" component={Edit} />
         </Wrapper>
     );
 }
 
-export default Students;
+export default Vendors;
