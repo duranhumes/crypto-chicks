@@ -1,61 +1,93 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View, Image, Button, TouchableOpacity } from 'react-native';
-import Modal from 'react-native-modal';
+import RNModal from 'react-native-modal';
 
 export default function Modal(props) {
-    const student = {
-        id: '326f9dba2b34498ebc07eda350d106d3',
-        school_id: '242',
-        name: 'Student 1',
-        photo_url: 'https://api.adorable.io/avatars/285/abott@adorable.png',
-    };
-    const [isModalVisible, isModalVisibleOnChange] = useState(true);
+    const noop = () => {};
+    const { data, denyOnPress = noop, approveOnPress = noop } = props;
 
-    const toggleModal = () => {
-        isModalVisibleOnChange(!isModalVisible);
-    };
-
-    // const { student } = props;
     return (
         <View>
-            <Button title="Show modal" onPress={toggleModal} />
-            <RNModal isVisible={isModalVisible}>
+            <Button title="Show modal" onPress={props.toggleModal} />
+            <RNModal isVisible={props.isModalVisible}>
                 <View
                     style={{
                         flex: 1,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        backgroundColor: 'grey',
+                        backgroundColor: 'white',
                     }}
                 >
-                    {student && (
-                        <>
-                            <View
+                    <View
+                        style={{
+                            width: 125,
+                            height: 125,
+                            marginBottom: 20,
+                        }}
+                    >
+                        <Image
+                            style={{ flex: 1, width: 125, height: 125 }}
+                            source={{ uri: data.photo_url }}
+                        />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                        ID: {data.id}
+                    </Text>
+                    <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
+                        Name: {data.name}
+                    </Text>
+                    <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
+                        School ID: {data.school_id}
+                    </Text>
+                    <View
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            flexDirection: 'row',
+                            marginTop: 50,
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: 'teal',
+                                borderRadius: 10,
+                                marginRight: 40,
+                                padding: 20,
+                            }}
+                            onPress={() => approveOnPress(data)}
+                        >
+                            <Text
                                 style={{
-                                    width: 125,
-                                    height: 125,
-                                    marginBottom: 20,
+                                    fontSize: 30,
+                                    textTransform: 'uppercase',
+                                    color: 'white',
                                 }}
                             >
-                                <Image
-                                    style={{ flex: 1, width: 125, height: 125 }}
-                                    source={{ uri: student.photo_url }}
-                                />
-                            </View>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                                ID: {student.id}
+                                Approve
                             </Text>
-                            <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
-                                Name: {student.name}
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: 'red',
+                                borderRadius: 10,
+                                padding: 20,
+                            }}
+                            onPress={() => denyOnPress(data)}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 30,
+                                    textTransform: 'uppercase',
+                                    color: 'black',
+                                }}
+                            >
+                                Deny
                             </Text>
-                            <Text style={{ fontSize: 35, fontWeight: 'bold' }}>
-                                School ID: {student.school_id}
-                            </Text>
-                        </>
-                    )}
+                        </TouchableOpacity>
+                    </View>
                     <TouchableOpacity
-                        style={{ marginTop: 30 }}
-                        onPress={toggleModal}
+                        style={{ marginTop: 70 }}
+                        onPress={props.toggleModal}
                     >
                         <Text
                             style={{

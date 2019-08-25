@@ -12,12 +12,9 @@ const apiInstance = builder();
 function Create(props) {
     const [apiResponseMsg, apiResponseMsgOnChange] = useState('');
     const handleSubmit = async values => {
-        const [response, responseErr] = await promiseWrapper(
+        const [response] = await promiseWrapper(
             apiInstance.post(vendorsEndpoint, values)
         );
-        if (responseErr) {
-            return setResponseMsg(responseErr.data.message);
-        }
 
         setResponseMsg(response.data.message);
         props.history.push('/vendors');

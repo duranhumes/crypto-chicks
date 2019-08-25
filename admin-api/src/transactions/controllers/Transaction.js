@@ -57,7 +57,6 @@ class Controller {
         const [transactions, transactionsErr] = await promiseWrapper(
             this.transactionRepo.findQuery({ student_id: studentId })
         );
-        console.log('transactionsErr', transactionsErr);
         if (transactionsErr) {
             return res.status(500).json(httpMessages.code500());
         }
@@ -68,7 +67,7 @@ class Controller {
     async getVendorTransactions(req, res) {
         const vendorId = escapeString(req.params.vendorId);
         const [transactions, transactionsErr] = await promiseWrapper(
-            this.transactionRepo.findQuery({ vendor_id: vendorId })
+            this.transactionRepo.findVendorTransactionsQuery(vendorId)
         );
         if (transactionsErr) {
             return res.status(500).json(httpMessages.code500());

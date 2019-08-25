@@ -4,16 +4,40 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Text, View, StyleSheet, Button } from 'react-native';
 
 import builder from '../api/builder';
+import Modal from '../components/Modal';
 import { promiseWrapper } from '../utils';
-import { studentsEndpoint, vendorsEndpoint } from '../api/endpoints';
+import {
+    studentsEndpoint,
+    vendorsEndpoint,
+    transactionsEndpoint,
+} from '../api/endpoints';
 
 const apiInstance = builder();
+
+const dummyData = [
+    {
+        school_id: '242',
+        name: 'Student 1',
+        id: '326f9dba2b34498ebc07eda350d106d3',
+        photo_url: 'https://api.adorable.io/avatars/285/abott@adorable.png',
+    },
+    {
+        school_id: '242',
+        name: 'Vendor 1',
+        id: 'f53934f935d54bf48690a84947317a18',
+    },
+];
+
+const getTempData = isStudent => {
+    return isStudent ? dummyData[0] : dummyData[1];
+};
 
 export default class Scanner extends React.Component {
     state = {
         hasCameraPermission: null,
         scanned: false,
         userData: {},
+        isModalVisible: true,
     };
 
     async componentDidMount() {
@@ -26,6 +50,7 @@ export default class Scanner extends React.Component {
     };
 
     handleBarCodeScanned = async ({ data }) => {
+        this.setState(prevState => ({ ...prevState, scanned: true }));
         const { student, vendor } = this.props.navigation.state.params;
         if (!student || vendor) return;
 
@@ -33,17 +58,58 @@ export default class Scanner extends React.Component {
         const [qrData, qrDataErr] = await promiseWrapper(
             apiInstance.get(`${endpoint}/${data}`)
         );
+
         if (!qrDataErr) {
             this.setState(prevState => ({
                 ...prevState,
-                scanned: true,
                 userData: qrData.data.data,
             }));
         }
     };
 
+    handleDenyOnPress = async denyData => {
+        const data = dummyData.find(d => d.id !== denyData.id);
+
+        const [response, responseErr] = await promiseWrapper(
+            apiInstance.post(transactionsEndpoint, {
+                vendor_id: data.id,
+                student_id: denyData.id,
+                approved: false,
+            })
+        );
+
+        this.toggleModal();
+
+        console.log('response.data', response.data);
+        console.log('responseErr', responseErr);
+    };
+
+    handleApproveOnPress = async approveData => {
+        const data = dummyData.find(d => d.id !== approveData.id);
+
+        const [response, responseErr] = await promiseWrapper(
+            apiInstance.post(transactionsEndpoint, {
+                vendor_id: data.id,
+                student_id: approveData.id,
+                approved: true,
+            })
+        );
+
+        this.toggleModal();
+
+        console.log('response.data', response.data);
+        console.log('responseErr', responseErr);
+    };
+
+    toggleModal = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            isModalVisible: !prevState.isModalVisible,
+        }));
+    };
+
     render() {
-        const { hasCameraPermission, scanned } = this.state;
+        const { hasCameraPermission, scanned, isModalVisible } = this.state;
 
         if (hasCameraPermission === null) {
             return <Text>Requesting for camera permission</Text>;
@@ -51,6 +117,9 @@ export default class Scanner extends React.Component {
         if (hasCameraPermission === false) {
             return <Text>No access to camera</Text>;
         }
+
+        const { student } = this.props.navigation.state.params;
+        const modalData = getTempData(!!student);
 
         return (
             <View
@@ -71,9 +140,20 @@ export default class Scanner extends React.Component {
                     <>
                         <Button
                             title={'Tap to Scan Again'}
-                            onPress={() => this.setState({ scanned: false })}
+                            onPress={() =>
+                                this.setState({
+                                    scanned: false,
+                                    isModalVisible: true,
+                                })
+                            }
                         />
-                        <UserModal student={this.state.userData} />
+                        <Modal
+                            data={modalData}
+                            denyOnPress={this.handleDenyOnPress}
+                            approveOnPress={this.handleApproveOnPress}
+                            toggleModal={this.toggleModal}
+                            isModalVisible={isModalVisible}
+                        />
                     </>
                 )}
             </View>

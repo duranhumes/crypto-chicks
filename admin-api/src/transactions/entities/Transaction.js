@@ -19,6 +19,7 @@ export class Transaction {
                     .primary();
                 t.string('student_id', 225);
                 t.string('vendor_id', 225);
+                t.boolean('approved').defaultTo(false);
                 t.timestamp('created_at').defaultTo(getDBConnection().fn.now());
             });
         }

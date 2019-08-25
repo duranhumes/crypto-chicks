@@ -7,7 +7,7 @@ import { Center, Row, Col, List, ListItem } from '../../../styles';
 
 const apiInstance = builder();
 
-function Index() {
+function Index(props) {
     const [listOfVendors, listOfVendorsOnChange] = useState([]);
 
     const fetchVendors = async () => {
@@ -31,7 +31,16 @@ function Index() {
                         {listOfVendors.length > 0 ? (
                             <List>
                                 {listOfVendors.map(vendor => (
-                                    <ListItem key={vendor.id}>
+                                    <ListItem
+                                        key={vendor.id}
+                                        linked={true}
+                                        onClick={() =>
+                                            props.history.push(
+                                                `/vendors/${vendor.id}`,
+                                                vendor
+                                            )
+                                        }
+                                    >
                                         <Row>
                                             <Col columns={12}>
                                                 ID: {vendor.id}

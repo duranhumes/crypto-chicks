@@ -55,9 +55,6 @@ function View(props) {
         fetchTransactionData(match.params);
     }, []);
 
-    console.log('studentData', studentData);
-    console.log('transactionData', transactionData);
-
     return (
         <Center alignTop={true}>
             <Row>
@@ -69,7 +66,7 @@ function View(props) {
                         <ProfileCard data={studentData} />
                         <hr />
                         <h1>Transactions</h1>
-                        {/* <TransactionCard data={transactionData} /> */}
+                        <TransactionCard data={transactionData} />
                     </Center>
                 </Col>
             </Row>

@@ -11,6 +11,29 @@ export class TransactionRepository {
         entity.up();
     }
 
+    findVendorTransactionsQuery(vendorId) {
+        return new Promise(async (resolve, reject) => {
+            const [transactions, transactionsErr] = await promiseWrapper(
+                getDBConnection()
+                    .select('t.*')
+                    .from(`${this.tableName} AS u`)
+                    .leftJoin('vendors AS v', 'v.user_id', 't.id')
+                    .leftJoin('students AS s', 's.user_id', 't.id')
+                    .where('t.vendor_id', '=', vendorId)
+            );
+
+            if (transactionsErr) {
+                return reject(transactionsErr);
+            }
+
+            if (!transactions || isEmpty(transactions)) {
+                return resolve([]);
+            }
+
+            return resolve(transactions);
+        });
+    }
+
     findQuery(query = {}) {
         return new Promise(async (resolve, reject) => {
             const [transactions, transactionsErr] = await promiseWrapper(
