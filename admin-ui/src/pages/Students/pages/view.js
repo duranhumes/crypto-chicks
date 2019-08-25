@@ -4,14 +4,14 @@ import builder from '../../../api/builder';
 import { promiseWrapper } from '../../../utils';
 import { Center, Row, Col } from '../../../styles';
 import ProfileCard from '../../../components/ProfileCard';
-import TransactionCard from '../../../components/TransactionCard';
+import TransactionList from '../../../components/TransactionList';
 import { studentsEndpoint, transactionsEndpoint } from '../../../api/endpoints';
 
 const apiInstance = builder();
 
 function View(props) {
     const [studentData, studentDataOnChange] = useState({});
-    const [transactionData, transactionDataOnChange] = useState({});
+    const [transactionData, transactionDataOnChange] = useState([]);
 
     const fetchTransactionData = async (params = {}) => {
         const { studentId } = params;
@@ -53,7 +53,7 @@ function View(props) {
     useEffect(() => {
         validateStudentData(location.state, match.params);
         fetchTransactionData(match.params);
-    }, []);
+    }, [location.state, match.params]);
 
     return (
         <Center alignTop={true}>
@@ -66,7 +66,7 @@ function View(props) {
                         <ProfileCard data={studentData} />
                         <hr />
                         <h1>Transactions</h1>
-                        <TransactionCard data={transactionData} />
+                        <TransactionList data={transactionData} />
                     </Center>
                 </Col>
             </Row>
