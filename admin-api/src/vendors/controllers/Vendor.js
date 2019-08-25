@@ -32,11 +32,7 @@ class Controller {
         }
 
         const [newVendor, newVendorErr] = await promiseWrapper(
-            this.vendorRepo.create({
-                ...vendorData,
-                photo_url:
-                    'https://api.adorable.io/avatars/285/abott@adorable.png',
-            })
+            this.vendorRepo.create(vendorData)
         );
         if (newVendorErr) {
             return res.status(500).json(httpMessages.code500());

@@ -7,9 +7,8 @@ import {
     Button,
     TouchableOpacity,
 } from 'react-native';
-import * as Permissions from 'expo-permissions';
 import Modal from 'react-native-modal';
-
+import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import builder from './api/builder';
