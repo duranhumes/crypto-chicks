@@ -15,7 +15,7 @@ export class TransactionRepository {
         return new Promise(async (resolve, reject) => {
             const [transactions, transactionsErr] = await promiseWrapper(
                 getDBConnection().raw(
-                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT OUTER JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` WHERE \`t\`.\`vendor_id\` = ?`,
+                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT OUTER JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` LEFT OUTER JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`vendor_id\` = ?`,
                     vendorId
                 )
             );
@@ -33,15 +33,15 @@ export class TransactionRepository {
         });
     }
 
-    findStudentTransactionsQuery(studentId) {
+    findStudentTransactionsQuery(vendorId) {
         return new Promise(async (resolve, reject) => {
             const [transactions, transactionsErr] = await promiseWrapper(
                 getDBConnection().raw(
-                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT OUTER JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`student_id\` = ?`,
-                    studentId
+                    `SELECT \`t\`.\`id\`, \`t\`.\`created_at\`, \`v\`.\`name\` AS vendor_name, \`s\`.\`name\` AS student_name FROM \`${this.tableName}\` AS \`t\` LEFT OUTER JOIN \`vendors\` AS \`v\` ON \`v\`.\`id\` = \`t\`.\`vendor_id\` LEFT OUTER JOIN \`students\` AS \`s\` ON \`s\`.\`id\` = \`t\`.\`student_id\` WHERE \`t\`.\`vendor_id\` = ?`,
+                    vendorId
                 )
             );
-
+            // @TODO: Remove other values from data besides 'TextRow'
             if (transactionsErr) {
                 return reject(transactionsErr);
             }
