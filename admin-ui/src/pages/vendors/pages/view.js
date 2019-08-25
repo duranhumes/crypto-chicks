@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Center, Row, Col } from '../../../styles';
 
-function Edit() {
+function View() {
     return (
         <Center alignTop={true}>
             <Row>
                 <Col columns={12}>
                     <Center>
-                        <h1>Edit</h1>
+                        <h1>View</h1>
                     </Center>
                 </Col>
             </Row>
@@ -16,4 +16,4 @@ function Edit() {
     );
 }
 
-export default Edit;
+export default View;

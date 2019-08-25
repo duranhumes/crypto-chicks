@@ -6,7 +6,7 @@ import Header from './components/header';
 
 import Create from './pages/create';
 import Index from './pages/index';
-import Edit from './pages/edit';
+import View from './pages/view';
 
 function Students() {
     return (
@@ -14,7 +14,7 @@ function Students() {
             <Header />
             <Route path="/students" exact={true} component={Index} />
             <Route path="/students/create" exact={true} component={Create} />
-            <Route path="/students/:studentId" component={Edit} />
+            <Route path="/students/:studentId" component={View} />
         </Wrapper>
     );
 }

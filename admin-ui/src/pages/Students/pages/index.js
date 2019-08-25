@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import builder from '../../../api/builder';
 import { promiseWrapper } from '../../../utils';
-import { Center, Row, Col, List, ListItem, Image } from '../../../styles';
 import { studentsEndpoint } from '../../../api/endpoints';
+import { Center, Row, Col, List, ListItem, Image } from '../../../styles';
 
 const apiInstance = builder();
 
-function Index() {
+function Index(props) {
     const [listOfStudents, listOfStudentsOnChange] = useState([]);
 
     const fetchStudents = async () => {
@@ -31,7 +31,16 @@ function Index() {
                         {listOfStudents.length > 0 ? (
                             <List>
                                 {listOfStudents.map(student => (
-                                    <ListItem key={student.id}>
+                                    <ListItem
+                                        key={student.id}
+                                        linked={true}
+                                        onClick={() =>
+                                            props.history.push(
+                                                `/students/${student.id}`,
+                                                student
+                                            )
+                                        }
+                                    >
                                         <Row>
                                             <Col columns={4}>
                                                 <Image

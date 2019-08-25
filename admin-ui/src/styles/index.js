@@ -102,6 +102,7 @@ export const List = styled.ul`
 `;
 
 export const ListItem = styled.li`
+    cursor: ${props => (props.linked ? 'pointer' : 'initial')};
     width: 100%;
     height: 130px;
     padding: 2rem;

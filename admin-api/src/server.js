@@ -9,6 +9,7 @@ import compression from 'compression';
 import * as httpMessages from './utils/httpMessages';
 import { VendorController } from './vendors/controllers/Vendor';
 import { StudentController } from './students/controllers/Student';
+import { TransactionController } from './transactions/controllers/Transaction';
 
 /**
  * App instance
@@ -44,6 +45,7 @@ router.get('/_healthz', (_, res) => res.sendStatus(200));
 
 router.use('/students', StudentController);
 router.use('/vendors', VendorController);
+router.use('/transactions', TransactionController);
 
 router.post('/qr', (req, res) => {
     const qrCode = qrGenerator.image(req.body.id, {

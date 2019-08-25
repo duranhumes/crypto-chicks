@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import builder from '../../../api/builder';
 import { promiseWrapper } from '../../../utils';
-import { Center, Row, Col, List, ListItem, Image } from '../../../styles';
 import { vendorsEndpoint } from '../../../api/endpoints';
+import { Center, Row, Col, List, ListItem } from '../../../styles';
 
 const apiInstance = builder();
 
@@ -33,10 +33,7 @@ function Index() {
                                 {listOfVendors.map(vendor => (
                                     <ListItem key={vendor.id}>
                                         <Row>
-                                            <Col columns={4}>
-                                                <Image src={vendor.photo_url} />
-                                            </Col>
-                                            <Col columns={8}>
+                                            <Col columns={12}>
                                                 ID: {vendor.id}
                                                 <br />
                                                 Name: {vendor.name}
