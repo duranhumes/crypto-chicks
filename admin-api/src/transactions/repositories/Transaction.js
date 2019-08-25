@@ -19,7 +19,7 @@ export class TransactionRepository {
                     vendorId
                 )
             );
-
+            // @TODO: Remove other values from data besides 'TextRow'
             if (transactionsErr) {
                 return reject(transactionsErr);
             }
@@ -28,7 +28,7 @@ export class TransactionRepository {
                 return resolve([]);
             }
 
-            return resolve(transactions);
+            return resolve(transactions.filter(t => t.created_at));
         });
     }
 
