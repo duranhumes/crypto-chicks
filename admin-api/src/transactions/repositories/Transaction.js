@@ -19,8 +19,7 @@ export class TransactionRepository {
                     vendorId
                 )
             );
-            console.log('transactions', transactions);
-            console.log('transactionsErr', transactionsErr);
+
             if (transactionsErr) {
                 return reject(transactionsErr);
             }
